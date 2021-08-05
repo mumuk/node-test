@@ -1,0 +1,22 @@
+{
+  "name": "Node-serv",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "mongodb": "/Program Files/MongoDB/Server/5.0/bin/mongod.exe --dpath=/mongodb-data",
+    "start": "nodemon src/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "faker": "^5.5.3",
+    "mongodb": "^4.0.1",
+    "mongoose": "^5.13.5",
+    "pdfkit": "^0.12.3",
+    "validator": "^13.6.0"
+  }
+}
