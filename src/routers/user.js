@@ -4,8 +4,10 @@ const router = new express.Router();
 const PDFDocument = require('pdfkit');
 const fs = require('fs');
 const path = require('path');
-var faker = require('faker');
+const faker = require('faker');
 
+
+//Создание юзера
 router.post('/api/users', async (req, res) => {
 
   const user = new User(req.body);
@@ -20,6 +22,7 @@ router.post('/api/users', async (req, res) => {
 });
 
 
+//Получить всех юзеров
 router.get('/api/users', async (req, res) => {
   try {
     const users = await User.find({})
@@ -31,6 +34,8 @@ router.get('/api/users', async (req, res) => {
   }
 })
 
+
+//Получить юзера по Id
 router.get('/api/users/:id', async (req, res) => {
 
   try {
@@ -46,6 +51,8 @@ router.get('/api/users/:id', async (req, res) => {
   }
 })
 
+
+// Модифицировать юзера
 router.patch(`/api/users/:id`, async (req, res) => {
   const updates = Object.keys(req.body);
 
@@ -70,6 +77,7 @@ router.patch(`/api/users/:id`, async (req, res) => {
 });
 
 
+// Удалить юзера по Id
 router.delete('/api/users/:id', async (req, res) => {
 
   try {
@@ -87,6 +95,7 @@ router.delete('/api/users/:id', async (req, res) => {
 })
 
 
+// Юзер инфо в пдфку и отправать
 router.post('/api/user', async (req, res) => {
 
   const filePath = path.join(__dirname, `../../files/User_${req.body._id}.pdf`)
@@ -112,11 +121,12 @@ router.post('/api/user', async (req, res) => {
   }
 });
 
-const createFakeUsers = (amount) => {
+// Создание фейковых юзеров
+const createFakeUsers = async(amount) => {
   let usersArr = []
 
   for (i = 0; i < amount; i++) {
-    const user = {
+    const user = new User({
       firstName: faker.name.firstName(),
       lastName: faker.name.lastName(),
       email: faker.internet.email(),
@@ -130,12 +140,14 @@ const createFakeUsers = (amount) => {
         linkedIn: `https://www.linkedin.com/user${i}`,
         twitter: `https://twitter.com/user${i}`
       }
-    }
+    })
+    await user.save();
     usersArr.push(user)
   }
   return usersArr
 }
 
+// Создает заданное кол-во юзеров и сохраняет в файл с нужным именем
 router.post('/api/createfakeusers', async (req, res) => {
 
   const {amount, fileName} = req.body

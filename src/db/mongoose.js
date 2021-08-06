@@ -1,7 +1,8 @@
 const mongoose = require('mongoose'); //
 
 //Создаем соединение
-mongoose.connect('mongodb://localhost:27017/users-serv', {
+// mongoose.connect('mongodb://localhost:27017/users-serv', {
+mongoose.connect(process.env.MONGODB_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true
