@@ -8,5 +8,3 @@ app.use(express.json());
 app.use(userRouter);
 
 module.exports=app
-
-// app.listen(port, ()=>console.log(`Server is on port:${port}`))

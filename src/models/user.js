@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema(
       unique: true,
       required: true,
       trim: true,
-      lovercase: true,
+      lowercase: true,
 
       validate(value) {
         if (!validator.isEmail(value)) {
@@ -72,7 +72,7 @@ const userSchema = new mongoose.Schema(
         type: String,
         trim: true,
         validate(value) {
-          if (!value.length>0&&!validator.isURL(value)) {
+          if (!value.length > 0 && !validator.isURL(value)) {
             throw new Error(`You must add a link!`)
           }
         }
@@ -86,7 +86,6 @@ const userSchema = new mongoose.Schema(
           }
         }
       },
-
     }
   }
 )

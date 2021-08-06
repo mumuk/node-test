@@ -122,7 +122,7 @@ router.post('/api/user', async (req, res) => {
 });
 
 // Создание фейковых юзеров
-const createFakeUsers = async(amount) => {
+const createFakeUsers = async (amount) => {
   let usersArr = []
 
   for (i = 0; i < amount; i++) {
@@ -152,8 +152,7 @@ router.post('/api/createfakeusers', async (req, res) => {
 
   const {amount, fileName} = req.body
 
-  const fakeUsers = JSON.stringify(createFakeUsers(amount), 2)
-
+  const fakeUsers = JSON.stringify(await createFakeUsers(amount))
 
   const filePath = path.join(__dirname, `../../files/${fileName}.pdf`)
 
@@ -165,15 +164,20 @@ router.post('/api/createfakeusers', async (req, res) => {
       doc.pipe(fs.createWriteStream(`${filePath}`))
       doc.text(`${fakeUsers}`);
       doc.end()
+      res.status(201).send('Файл успешно создан');
     }
-
-    let data = fs.readFileSync(filePath);
-    res.contentType("application/pdf");
-    res.send(data);
   } catch (e) {
-
+    res.send(`Error:, ${e.message}`)
   }
 });
 
+router.get('/api/fetchfakeusers/:outputFileName', async (req, res) => {
+  const {outputFileName} = req.params
+  const filePath = path.join(__dirname, `../../files/${outputFileName}.pdf`)
+  let data = fs.readFileSync(filePath);
+  res.contentType("application/pdf");
+  res.send(data);
+
+})
 
 module.exports = router
